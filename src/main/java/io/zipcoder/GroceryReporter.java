@@ -10,7 +10,9 @@ public class GroceryReporter {
     }
 
     @Override
-    public String toString() {
+    public String toString() { //String that is being tested
+        GroceryReporter reporter = new GroceryReporter(originalFileText);
+
         return null;
     }
 }
