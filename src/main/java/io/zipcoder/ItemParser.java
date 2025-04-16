@@ -3,17 +3,16 @@ package io.zipcoder;
 import io.zipcoder.utils.Item;
 import io.zipcoder.utils.ItemParseException;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class ItemParser {
     private String keyValueSeperator = "[:@^*%]";
     private String pairSeperator = ";";
+    private String itemSeperator = "##";
     private Pattern keyValuePattern = Pattern.compile(keyValueSeperator);
     private Pattern pairPattern = Pattern.compile(pairSeperator);
+    private Pattern itemPattern = Pattern.compile(itemSeperator);
 
 
     public List<Item> parseItemList(String valueToParse) {
@@ -23,9 +22,29 @@ public class ItemParser {
                 .append("NAMe:BrEAD;price:1.23;type:Food;expiration:2/25/2016##")
                 .toString();
          */
+        List<Item> items = new ArrayList<>();
 
+        if (valueToParse == null || valueToParse.trim().isEmpty()) {
+            return items;
+        }
 
-        return null;
+        String[] singleItems = itemPattern.split(valueToParse);
+
+        for (String itemStr : singleItems) {
+            if (itemStr == null || itemStr.trim().isEmpty()) {
+                continue;
+            }
+
+            try {
+                Item parsedItem = parseSingleItem(itemStr);
+//                System.out.println("Parsed item: " + parsedItem);
+                items.add(parsedItem);
+            } catch (ItemParseException e) {
+                // Handle the exception if needed
+//                System.err.println("Error parsing item: " + itemStr);
+            }
+        }
+        return items;
     }
 
     public Item parseSingleItem(String singleItem) throws ItemParseException {
@@ -63,7 +82,7 @@ public class ItemParser {
         String type = itemData.get("type");
         String expiration = itemData.get("expiration");
 
-        if (name == null || priceStr == null || type == null || expiration == null) {
+        if (name == null  || priceStr == null || type == null || expiration == null) {
             throw new ItemParseException();
         }
 

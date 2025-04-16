@@ -15,8 +15,8 @@ public class ToStringTest {
 
         // when
         String actual = reporter.toString();
-
-        // then
+        System.out.println(actual);
+            // then
         Assert.assertEquals(expected, actual);
     }
 }
