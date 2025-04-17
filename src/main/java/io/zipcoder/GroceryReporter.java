@@ -36,17 +36,12 @@ public class GroceryReporter {
             int errorCounter = 0;
             for (int i = 0; i < items.size(); i++) {
                 Item item = items.get(i);
-                if (item.getName() == null || item.getPrice() == null || item.getType() == null || item.getExpiration() == null) {
-                    errorCounter++;
-                    continue;
-                }
-
                 report.append(String.format(Locale.US,
-                "name: %-10s seen: %d times\n",
-                        item.getName()));
-//                      item.getPrice()));
-//                      item.getType(),
-//                      item.getExpiration()));
+                "Name: %-10s Price: %-6.2f Type: %-8s Expiration: %s\n",
+                        item.getName(),
+                        item.getPrice(),
+                        item.getType(),
+                        item.getExpiration()));
 
                 if (i < items.size() - 1) {
                     report.append("--------------------\n");
